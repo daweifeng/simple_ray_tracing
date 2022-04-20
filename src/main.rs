@@ -1,10 +1,10 @@
 use std::fs::File;
 use std::io::Write;
 
+mod color;
 mod vec3;
 
-use vec3::Vec3 as Point; // 3D point
-use vec3::Vec3 as Color; // RGB color
+// use vec3::Vec3 as Point; // 3D point
 
 fn main() -> std::io::Result<()> {
     // Generate a test image
@@ -35,16 +35,8 @@ fn main() -> std::io::Result<()> {
             let g: f64 = j as f64 / (IMAGE_HEIGHT - 1) as f64;
             let b = 0.25;
 
-            let ir = (255.999 * r) as u32;
-            let ig = (255.999 * g) as u32;
-            let ib = (255.999 * b) as u32;
-
-            let line = format!("{ir} {ig} {ib}\n");
-
-            match file.write(line.as_bytes()) {
-                Ok(_) => {}
-                Err(error) => panic!("Problem writing the file: {:?}", error),
-            };
+            let pixel_color = color::Color(r, g, b);
+            color::write_color(&mut file, pixel_color);
             i = i + 1;
         }
         j = j - 1;
