@@ -19,7 +19,10 @@ impl Ray {
   }
   pub fn ray_color(&self) -> Color {
     let unit_direction = self.direction().unit_vector();
+    // scale unit to t, where 0 <= t <= 1
     let t = 0.5 * unit_direction.y() + 1.0;
+    // linear interpolation aka lerp
+    // generate color based on y-coordinate
     return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
   }
 }
