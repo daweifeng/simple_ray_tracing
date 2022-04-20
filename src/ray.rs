@@ -1,9 +1,10 @@
+use crate::color::Color;
 use crate::vec3::Vec3;
 use crate::vec3::Vec3 as Point; // 3D point
 
 pub struct Ray {
-  origin: Vec3,
-  direction: Vec3,
+  pub origin: Vec3,
+  pub direction: Vec3,
 }
 
 impl Ray {
@@ -15,6 +16,11 @@ impl Ray {
   }
   fn at(&self, t: f64) -> Point {
     self.origin() + t * self.direction()
+  }
+  pub fn ray_color(&self) -> Color {
+    let unit_direction = self.direction().unit_vector();
+    let t = 0.5 * unit_direction.y() + 1.0;
+    return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
   }
 }
 

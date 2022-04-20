@@ -35,6 +35,10 @@ impl Vec3 {
       self.x() * _rhs.y() - self.y() * _rhs.x(),
     );
   }
+
+  pub fn unit_vector(self) -> Vec3 {
+    return self / self.length();
+  }
 }
 
 impl ops::Sub<Vec3> for Vec3 {
