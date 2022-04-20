@@ -2,9 +2,8 @@ use std::fs::File;
 use std::io::Write;
 
 mod color;
+mod ray;
 mod vec3;
-
-// use vec3::Vec3 as Point; // 3D point
 
 fn main() -> std::io::Result<()> {
     // Generate a test image
