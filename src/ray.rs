@@ -18,12 +18,24 @@ impl Ray {
     self.origin() + t * self.direction()
   }
   pub fn ray_color(&self) -> Color {
+    if self.hit_sphere(Point(0.0, 0.0, -1.0), 0.5) {
+      return Color(1.0, 0.0, 0.0);
+    }
     let unit_direction = self.direction().unit_vector();
     // scale unit to t, where 0 <= t <= 1
     let t = 0.5 * unit_direction.y() + 1.0;
     // linear interpolation aka lerp
     // generate color based on y-coordinate
     return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
+  }
+
+  pub fn hit_sphere(&self, center: Point, radius: f64) -> bool {
+    let oc = self.origin() - center;
+    let a = self.direction().dot(&self.direction());
+    let b = 2.0 * oc.dot(&self.direction());
+    let c = oc.dot(&oc) - radius * radius;
+    let discriminant = b * b - 4.0 * a * c;
+    return discriminant > 0.0;
   }
 }
 
