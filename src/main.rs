@@ -3,6 +3,7 @@ use std::io::Write;
 
 mod color;
 mod ray;
+mod sphere;
 mod vec3;
 
 use ray::Ray;

@@ -8,13 +8,13 @@ pub struct Ray {
 }
 
 impl Ray {
-  fn origin(&self) -> Vec3 {
+  pub fn origin(&self) -> Vec3 {
     self.origin
   }
-  fn direction(&self) -> Vec3 {
+  pub fn direction(&self) -> Vec3 {
     self.direction
   }
-  fn at(&self, t: f64) -> Point {
+  pub fn at(&self, t: f64) -> Point {
     self.origin() + t * self.direction()
   }
   pub fn ray_color(&self) -> Color {
