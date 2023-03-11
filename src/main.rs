@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::Write;
 
 mod color;
+mod hittable_list;
 mod ray;
 mod sphere;
 mod vec3;
