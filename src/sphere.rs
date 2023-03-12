@@ -7,8 +7,8 @@ pub trait Hittable {
 }
 
 pub struct Sphere {
-    center: Point,
-    radius: f64,
+    pub center: Point,
+    pub radius: f64,
 }
 
 pub struct HitRecord {
@@ -19,6 +19,14 @@ pub struct HitRecord {
 }
 
 impl HitRecord {
+    pub fn new() -> Self {
+        HitRecord {
+            point: Vec3(0.0, 0.0, 0.0),
+            normal: Vec3(0.0, 0.0, 0.0),
+            t: 0.0,
+            front_face: false,
+        }
+    }
     fn set_face_normal(self: &mut Self, ray: &Ray, outward_normal: &Vec3) {
         self.front_face = ray.direction().dot(outward_normal) < 0.0;
         if self.front_face {

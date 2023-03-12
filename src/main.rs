@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::Write;
 
 mod color;
+mod common;
 mod hittable_list;
 mod ray;
 mod sphere;
@@ -11,11 +12,25 @@ use ray::Ray;
 use vec3::Vec3 as Point; // 3D point
 use vec3::Vec3;
 
+use crate::hittable_list::HittableList;
+use crate::sphere::Sphere;
+
 fn main() -> std::io::Result<()> {
     // Image
     const ASPECT: f64 = 16.0 / 9.0;
     const IMAGE_WIDTH: i32 = 400;
     const IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f64 / ASPECT) as i32;
+
+    // World
+    let mut world = HittableList::new();
+    world.add(Box::new(Sphere {
+        center: Point(0.0, 0.0, -1.0),
+        radius: 0.5,
+    }));
+    world.add(Box::new(Sphere {
+        center: Point(0.0, -100.5, -1.0),
+        radius: 100.0,
+    }));
 
     // Camera
     const VIEWPORT_HEIGHT: f64 = 2.0;
@@ -33,7 +48,7 @@ fn main() -> std::io::Result<()> {
         Err(error) => panic!("Problem opening the file: {:?}", error),
     };
 
-    // Renderer
+    // Render
 
     let line = format!("P3\n{IMAGE_WIDTH} {IMAGE_HEIGHT}\n255\n");
 
@@ -57,7 +72,7 @@ fn main() -> std::io::Result<()> {
                 direction: lower_left_corner + u * horizontal + v * vertical - origin,
             };
 
-            let pixel_color = r.ray_color();
+            let pixel_color = r.ray_color(&world);
             color::write_color(&mut file, pixel_color);
             i = i + 1;
         }
